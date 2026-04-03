@@ -1,0 +1,1659 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>M. Ahsan Khan | AI/ML Engineer & Full-Stack Developer</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary: #3b82f6;
+        --primary-dark: #2563eb;
+        --secondary: #8b5cf6;
+        --accent: #f43f5e;
+        --dark: #030614;
+        --dark-light: #0f172a;
+        --gray: #94a3b8;
+        --light: #f1f5f9;
+        --white: #ffffff;
+        --glass-bg: rgba(10, 20, 40, 0.65);
+        --glass-border: rgba(59, 130, 246, 0.3);
+      }
+
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        background: #030614;
+        color: var(--light);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      /* Three.js Canvas Background - night sky */
+      #canvas-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background: radial-gradient(
+          ellipse at center,
+          #0a0f2a 0%,
+          #02040c 100%
+        );
+      }
+
+      /* Navigation */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(3, 6, 20, 0.75);
+        backdrop-filter: blur(16px);
+        z-index: 1000;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(59, 130, 246, 0.35);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      nav .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.6rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #90cdf4, #c084fc, #f472b6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -0.5px;
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      nav a {
+        color: var(--light);
+        text-decoration: none;
+        transition: all 0.3s;
+        font-weight: 500;
+        position: relative;
+      }
+
+      nav a:hover {
+        color: var(--primary);
+        text-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+      }
+
+      .mobile-menu {
+        display: none;
+        flex-direction: column;
+        gap: 6px;
+        cursor: pointer;
+      }
+
+      .mobile-menu span {
+        width: 26px;
+        height: 2px;
+        background: var(--light);
+        border-radius: 2px;
+        transition: 0.3s;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding-top: 80px;
+        position: relative;
+      }
+
+      .hero-content {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+
+      .hero-text h1 {
+        font-size: 3.8rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+      }
+
+      .gradient-text {
+        background: linear-gradient(135deg, #60a5fa, #c084fc, #f472b6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        background-size: 200% auto;
+        animation: gradient 4s ease infinite;
+      }
+
+      @keyframes gradient {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+
+      .hero-text h2 {
+        font-size: 1.6rem;
+        color: #cbd5e1;
+        margin-bottom: 1.5rem;
+        font-weight: 500;
+      }
+
+      .hero-text p {
+        font-size: 1.1rem;
+        color: #cbd5e6;
+        margin-bottom: 2rem;
+        line-height: 1.7;
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 0.9rem 2rem;
+        border-radius: 40px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        backdrop-filter: blur(4px);
+      }
+
+      .btn-primary {
+        background: linear-gradient(95deg, #3b82f6, #8b5cf6);
+        color: var(--white);
+        border: none;
+        box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5);
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--light);
+        border: 1px solid var(--primary);
+      }
+
+      .btn-secondary:hover {
+        background: rgba(59, 130, 246, 0.2);
+        transform: translateY(-3px);
+      }
+
+      .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+
+      .tech-item {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.104),
+          rgba(192, 114, 226, 0.267)
+        );
+        padding: 1.3rem 0.8rem;
+        text-align: center;
+        border: 10px solid rgba(96, 165, 250, 0.25);
+        transition: all 0.3s;
+        cursor: default;
+        border-radius: 0px;
+        transition:
+          transform 0.5s ease,
+          border-radius 0.5s ease-in,
+          border-radius 0.5s ease-out;
+      }
+
+      .tech-item:hover {
+        transform: translateY(-6px);
+        border-radius: 30px;
+      }
+
+      .tech-icon {
+        font-size: 2.6rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50px;
+      }
+
+      .tech-icon svg {
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+      }
+
+      .tech-item span {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #e2e8f0;
+      }
+
+      section {
+        padding: 5rem 0;
+        position: relative;
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .section-title h2 {
+        font-size: 2.6rem;
+        font-weight: 700;
+        margin-bottom: 0.8rem;
+        background: linear-gradient(135deg, #f1f5f9, #cbd5e1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .section-title p {
+        color: #94a3b8;
+        font-size: 1.1rem;
+      }
+
+      /* About Section Improvements */
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        align-items: start;
+      }
+      .about-grid .about-content {
+        order: 2;
+      }
+      .about-content {
+        border: 3px solid rgb(255, 255, 255);
+        padding: 2rem 1rem;
+        background: rgba(255, 255, 255, 0.155);
+      }
+
+      .about-content p {
+        font-size: 1.05rem;
+        margin-bottom: 1rem;
+        line-height: 1.8;
+      }
+
+      .about-skills {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .skill-category {
+        background: rgba(255, 255, 255, 0.067);
+        padding: 2rem;
+        border-radius: 0px;
+        border: 4px solid;
+        border-image: linear-gradient(180deg, #3b82f6, #c084fc) 1;
+        transition: all 0.3s;
+        backdrop-filter: blur(12px);
+      }
+
+      .skill-category:hover {
+        border-color: var(--primary);
+        transform: translateY(-6px);
+        box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.4);
+      }
+
+      .skill-category h3 {
+        border-bottom: 1px solid rgba(96, 165, 250, 0.3);
+        font-size: 1.5rem;
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.7rem;
+        color: #a5b4fc;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .skill-list {
+        list-style: none;
+      }
+
+      .skill-list li {
+        padding: 0.45rem 0;
+        color: #e2e8f0;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+
+      .skill-list li:before {
+        content: "✦";
+        color: #60a5fa;
+        font-weight: bold;
+        font-size: 1rem;
+      }
+
+      .timeline {
+        position: relative;
+        padding-left: 2rem;
+      }
+
+      .timeline:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(180deg, #3b82f6, #c084fc);
+      }
+
+      .timeline-item {
+        position: relative;
+        padding: 1.8rem;
+        background: var(--glass-bg);
+        border-radius: 24px;
+        margin-bottom: 2rem;
+        margin-left: 2rem;
+        border: 1px solid var(--glass-border);
+        transition: all 0.3s;
+        backdrop-filter: blur(12px);
+      }
+
+      .timeline-item:hover {
+        border-color: #60a5fa;
+        transform: translateX(8px);
+      }
+
+      .timeline-item:before {
+        content: "";
+        position: absolute;
+        left: -3rem;
+        top: 2rem;
+        width: 12px;
+        height: 12px;
+        background: #38bdf8;
+        border-radius: 50%;
+        box-shadow: 0 0 12px #3b82f6;
+      }
+
+      .timeline-item h3 {
+        font-size: 1.4rem;
+        margin-bottom: 0.4rem;
+      }
+
+      .timeline-meta {
+        display: flex;
+        gap: 1.8rem;
+        color: #94a3b8;
+        margin-bottom: 1rem;
+        font-size: 0.85rem;
+        flex-wrap: wrap;
+      }
+
+      .education-grid {
+        display: grid;
+        gap: 2rem;
+      }
+
+      .education-card {
+        background: var(--glass-bg);
+        padding: 2rem;
+        border-radius: 28px;
+        border: 1px solid var(--glass-border);
+        transition: all 0.3s;
+        display: flex;
+        gap: 2rem;
+        align-items: start;
+        backdrop-filter: blur(12px);
+      }
+
+      .education-card:hover {
+        border-color: var(--primary);
+        transform: translateY(-5px);
+      }
+
+      .education-icon {
+        font-size: 3rem;
+        min-width: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .education-icon svg {
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+      }
+
+      .education-content h3 {
+        font-size: 1.4rem;
+        margin-bottom: 0.3rem;
+      }
+
+      .education-meta {
+        color: #94a3b8;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+      }
+
+      .certificates {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(96, 165, 250, 0.3);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+      }
+
+      .certificate-tag {
+        background: rgba(59, 130, 246, 0.2);
+        color: #93c5fd;
+        padding: 0.4rem 1rem;
+        border-radius: 40px;
+        font-size: 0.8rem;
+        border: 1px solid rgba(59, 130, 246, 0.4);
+      }
+      .cert-link {
+        color: inherit; /* uses parent text color */
+        text-decoration: none; /* removes underline */
+      }
+
+      .cert-link:hover {
+        text-decoration: underline; /* optional hover effect */
+      }
+
+      .contact-content {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .contact-content h2 {
+        font-size: 2.8rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #f1f5f9, #c7d2fe);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .contact-links {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+      }
+
+      .contact-link {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.9rem 2rem;
+        background: rgba(20, 30, 55, 0.8);
+        border-radius: 60px;
+        text-decoration: none;
+        color: var(--light);
+        border: 1px solid rgba(96, 165, 250, 0.4);
+        transition: all 0.3s;
+        backdrop-filter: blur(8px);
+        font-weight: 500;
+      }
+
+      .contact-link:hover {
+        border-color: var(--primary);
+        background: rgba(59, 130, 246, 0.25);
+        transform: translateY(-3px);
+      }
+
+      .contact-icon {
+        width: 20px;
+        height: 20px;
+      }
+
+      footer {
+        background: rgba(3, 6, 20, 0.9);
+        padding: 2rem 0;
+        text-align: center;
+        border-top: 1px solid rgba(59, 130, 246, 0.3);
+        backdrop-filter: blur(12px);
+      }
+
+      footer p {
+        color: #94a3b8;
+      }
+
+      .tech-item {
+        animation: wave 3s ease-in-out infinite;
+      }
+
+      @keyframes wave {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-15px);
+        }
+      }
+
+      .tech-item:nth-child(1) {
+        animation-delay: 0s;
+      }
+      .tech-item:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .tech-item:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      .tech-item:nth-child(4) {
+        animation-delay: 0.6s;
+      }
+      .tech-item:nth-child(5) {
+        animation-delay: 0.8s;
+      }
+      .tech-item:nth-child(6) {
+        animation-delay: 1s;
+      }
+      .tech-item:nth-child(7) {
+        animation-delay: 1.2s;
+      }
+
+      @media (max-width: 800px) {
+        .hero-content {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+
+        .hero-text h1 {
+          font-size: 2.5rem;
+        }
+
+        nav ul {
+          display: none;
+          position: absolute;
+          top: 70px;
+          left: 0;
+          width: 100%;
+          background: rgba(3, 6, 20, 0.95);
+          backdrop-filter: blur(20px);
+          flex-direction: column;
+          text-align: center;
+          padding: 1.5rem;
+          gap: 1rem;
+          border-bottom: 1px solid #3b82f6;
+        }
+
+        nav ul.active {
+          display: flex;
+        }
+
+        .mobile-menu {
+          display: flex;
+        }
+
+        .skills-grid,
+        .education-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .timeline-item {
+          margin-left: 0.5rem;
+        }
+
+        .cta-buttons {
+          flex-direction: column;
+        }
+
+        .btn {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .education-card {
+          flex-direction: column;
+        }
+
+        /* About section responsive */
+        .about-grid {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+
+        .about-skills {
+          grid-template-columns: 1fr;
+        }
+
+        .about-content {
+          padding: 1.5rem 1rem;
+        }
+
+        .timeline-meta {
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .contact-links {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .contact-link {
+          justify-content: center;
+        }
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(35px);
+        transition: all 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      }
+
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas-container"></div>
+
+    <nav>
+      <div class="container">
+        <div class="logo">M. Ahsan Khan</div>
+        <ul id="nav-menu">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#program-lang">Programing Languages</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#education">Education</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="mobile-menu" id="mobile-menu-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
+
+    <section id="home" class="hero">
+      <div class="container">
+        <div class="hero-content reveal">
+          <div class="hero-text">
+            <h1>
+              Hi, I'm <span class="gradient-text"><i>Ahsan Khan</i></span>
+            </h1>
+            <h2>AI/ML Engineer & Full-Stack Developer</h2>
+            <p>
+              Crafting intelligent systems with TensorFlow & PyTorch, and
+              building modern web experiences. Currently advancing AI & ML at
+              Fanshawe College, merging full-stack expertise with next-gen AI.
+            </p>
+            <div class="cta-buttons">
+              <a href="#contact" class="btn btn-primary">Let's Connect →</a>
+              <a href="#experience" class="btn btn-secondary"
+                >Explore Journey</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="program-lang">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2><i>Languages & Core Tech</i></h2>
+          <p>Building with modern, powerful technologies</p>
+        </div>
+        <div class="tech-grid">
+          <div class="tech-item reveal">
+            <div class="tech-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="42"
+                height="42"
+                fill="none"
+                stroke="#3776ab"
+                stroke-width="1.5"
+              >
+                <path
+                  d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+                />
+              </svg>
+            </div>
+            <span>Python</span>
+          </div>
+          <div class="tech-item reveal">
+            <div class="tech-icon">
+              <svg viewBox="0 0 24 24" width="42" height="42" fill="#f7df1e">
+                <rect x="2" y="2" width="20" height="20" rx="2" />
+                <text
+                  x="12"
+                  y="17"
+                  text-anchor="middle"
+                  font-size="14"
+                  font-weight="bold"
+                  fill="#000"
+                >
+                  JS
+                </text>
+              </svg>
+            </div>
+            <span>JavaScript</span>
+          </div>
+          <div class="tech-item reveal">
+            <div class="tech-icon">
+              <svg viewBox="0 0 24 24" width="42" height="42" fill="#3178c6">
+                <rect x="2" y="2" width="20" height="20" rx="2" />
+                <text
+                  x="12"
+                  y="17"
+                  text-anchor="middle"
+                  font-size="12"
+                  font-weight="bold"
+                  fill="#fff"
+                >
+                  TS
+                </text>
+              </svg>
+            </div>
+            <span>TypeScript</span>
+          </div>
+          <div class="tech-item reveal">
+            <div class="tech-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="42"
+                height="42"
+                fill="none"
+                stroke="#00758f"
+                stroke-width="1.5"
+              >
+                <circle cx="12" cy="12" r="9" />
+                <path d="M8 8h8M8 12h8M8 16h5" />
+              </svg>
+            </div>
+            <span>SQL</span>
+          </div>
+          <div class="tech-item reveal">
+            <div class="tech-icon">
+              <svg viewBox="0 0 24 24" width="42" height="42" fill="#777bb4">
+                <ellipse cx="12" cy="12" rx="10" ry="6" />
+                <text
+                  x="12"
+                  y="16"
+                  text-anchor="middle"
+                  font-size="10"
+                  font-weight="bold"
+                  fill="#fff"
+                >
+                  PHP
+                </text>
+              </svg>
+            </div>
+            <span>PHP</span>
+          </div>
+          <div class="tech-item reveal">
+            <div class="tech-icon">
+              <svg viewBox="0 0 24 24" width="42" height="42" fill="#e34f26">
+                <path
+                  d="M4 2l1.5 17L12 22l6.5-3L20 2H4zm3 4h10l-.5 5H9.5l.2 2h6.5l-.3 3.5L12 18l-4.2-1.5L7.5 14h2l.2 1 2.3.8 2.3-.8.2-2.5H7.2L7 7z"
+                />
+              </svg>
+            </div>
+            <span>HTML5</span>
+          </div>
+          <div class="tech-item reveal">
+            <div class="tech-icon">
+              <svg viewBox="0 0 24 24" width="42" height="42" fill="#1572b6">
+                <path
+                  d="M4 2l1.5 17L12 22l6.5-3L20 2H4zm11 11l-.3 3.5L12 18l-2.7-1.5-.2-2h2l.1 1 1.8.5 1.8-.5.2-2H7.5l-.5-5h10l-.5 2H9.5l.2 2h6.8z"
+                />
+              </svg>
+            </div>
+            <span>CSS3</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2><i>About Me</i></h2>
+          <p>Blending AI research with full-stack craftsmanship</p>
+        </div>
+        <div class="about-grid">
+          <div class="about-content reveal">
+            <p>
+              <i>
+                I'm an AI/ML student and full-stack developer currently studying
+                a Post-Graduate Certificate in AI & ML at Fanshawe College. I
+                have also been accepted into a Master’s degree in Computer
+                Science at the University of Colorado Boulder. I started with
+                web development using React and Node.js, and gradually moved
+                into machine learning.
+              </i>
+            </p>
+
+            <p>
+              <i>
+                I focus on areas like deep learning, computer vision, and
+                natural language processing using TensorFlow and PyTorch, while
+                still building frontend interfaces when needed.
+              </i>
+            </p>
+
+            <p>
+              <i>
+                Outside of school, I handle IT responsibilities at XStock
+                (family business), where I support the company’s technical
+                operations and systems.
+              </i>
+            </p>
+          </div>
+          <div class="about-skills reveal">
+            <div class="tech-item">
+              <div class="tech-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="42"
+                  height="42"
+                  fill="none"
+                  stroke="#c084fc"
+                  stroke-width="1.5"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                  />
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M12 6v2M12 16v2M6 12h2M16 12h2" />
+                </svg>
+              </div>
+              <span>Deep Learning</span>
+            </div>
+            <div class="tech-item">
+              <div class="tech-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="42"
+                  height="42"
+                  fill="none"
+                  stroke="#60a5fa"
+                  stroke-width="1.5"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="2" />
+                  <circle cx="8.5" cy="8.5" r="1.5" />
+                  <path d="M21 15l-5-5L5 21" />
+                </svg>
+              </div>
+              <span>Computer Vision</span>
+            </div>
+            <div class="tech-item">
+              <div class="tech-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="42"
+                  height="42"
+                  fill="none"
+                  stroke="#f472b6"
+                  stroke-width="1.5"
+                >
+                  <path
+                    d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
+                  />
+                  <path d="M8 10h8M8 14h4" />
+                </svg>
+              </div>
+              <span>LLMs & NLP</span>
+            </div>
+            <div class="tech-item">
+              <div class="tech-icon">
+                <svg viewBox="0 0 24 24" width="42" height="42" fill="#61dafb">
+                  <circle cx="12" cy="12" r="2" />
+                  <ellipse cx="12" cy="12" rx="10" ry="4" />
+                  <ellipse
+                    cx="12"
+                    cy="12"
+                    rx="10"
+                    ry="4"
+                    transform="rotate(60 12 12)"
+                  />
+                  <ellipse
+                    cx="12"
+                    cy="12"
+                    rx="10"
+                    ry="4"
+                    transform="rotate(120 12 12)"
+                  />
+                </svg>
+              </div>
+              <span>React/Angular</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2><i>Technical Arsenal</i></h2>
+          <p>Modern tools for AI and scalable apps</p>
+        </div>
+        <div class="skills-grid">
+          <div class="skill-category reveal">
+            <h3>AI & Deep Learning</h3>
+            <ul class="skill-list">
+              <li>TensorFlow / Keras</li>
+              <li>PyTorch</li>
+              <li>Scikit-learn</li>
+              <li>Neural Networks & CNNs</li>
+              <li>Transformers / NLP</li>
+            </ul>
+          </div>
+          <div class="skill-category reveal">
+            <h3>Data Science</h3>
+            <ul class="skill-list">
+              <li>Pandas, NumPy</li>
+              <li>Matplotlib, Seaborn</li>
+              <li>Statistical Modeling</li>
+              <li>Feature Engineering</li>
+              <li>D3.js Dashboards</li>
+            </ul>
+          </div>
+          <div class="skill-category reveal">
+            <h3>Frontend</h3>
+            <ul class="skill-list">
+              <li>React.js / Hooks</li>
+              <li>Angular</li>
+              <li>Three.js / WebGL</li>
+              <li>Tailwind / CSS3</li>
+              <li>Responsive Design</li>
+            </ul>
+          </div>
+          <div class="skill-category reveal">
+            <h3>Backend & DB</h3>
+            <ul class="skill-list">
+              <li>Node.js / Express</li>
+              <li>PHP</li>
+              <li>MySQL / PostgreSQL</li>
+              <li>REST APIs</li>
+              <li>Database Optimization</li>
+            </ul>
+          </div>
+          <div class="skill-category reveal">
+            <h3>Advanced Algorithms</h3>
+            <ul class="skill-list">
+              <li>Dynamic Programming</li>
+              <li>Greedy & Approximation</li>
+              <li>Linear Programming</li>
+              <li>RSA / Quantum Concepts</li>
+            </ul>
+          </div>
+          <div class="skill-category reveal">
+            <h3>Dev Tools</h3>
+            <ul class="skill-list">
+              <li>Git & GitHub</li>
+              <li>Jupyter / Colab</li>
+              <li>Linux / Bash</li>
+              <li>Docker (basics)</li>
+              <li>Agile / Scrum</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2><i>Experience</i></h2>
+          <p>Real-world impact & technical growth</p>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item reveal">
+            <h3>Retail Associate / IT & Database Support</h3>
+            <div class="timeline-meta">
+              <span>
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  style="
+                    display: inline;
+                    vertical-align: middle;
+                    margin-right: 4px;
+                  "
+                >
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                XStock, London, ON
+              </span>
+              <span>
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  style="
+                    display: inline;
+                    vertical-align: middle;
+                    margin-right: 4px;
+                  "
+                >
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                  <path d="M16 2v4M8 2v4M3 10h18" />
+                </svg>
+                Sep 2022 – Present
+              </span>
+            </div>
+            <ul>
+              <li>
+                Manage inventory database, ensuring high data accuracy and
+                real-time reporting for sales forecasting.
+              </li>
+              <li>
+                Provide IT support and hardware/software troubleshooting,
+                reducing downtime by 25%.
+              </li>
+              <li>
+                Implemented data validation scripts, improving inventory
+                tracking efficiency.
+              </li>
+              <li>
+                Cross-functional collaboration for operational planning and
+                customer success.
+              </li>
+              <li>Implemented AI solutions to solve business problems</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="education">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2><i>Education & Certifications</i></h2>
+          <p>Always learning, always building</p>
+        </div>
+        <div class="education-grid">
+          <div class="education-card reveal">
+            <div class="education-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="48"
+                height="48"
+                fill="none"
+                stroke="#60a5fa"
+                stroke-width="1.5"
+              >
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                <path d="M6 12v5c3 3 9 3 12 0v-5" />
+              </svg>
+            </div>
+            <div class="education-content">
+              <h3>Artificial Intelligence and Machine Learning</h3>
+              <div class="education-meta">
+                Post-Graduate Certificate (COOP) | Fanshawe College | Aug 2025 –
+                April 2026
+              </div>
+              <p>
+                Intensive AI program: deep learning, computer vision, NLP,
+                TensorFlow, PyTorch, and model deployment.
+              </p>
+            </div>
+          </div>
+          <div class="education-card reveal">
+            <div class="education-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="48"
+                height="48"
+                fill="none"
+                stroke="#c084fc"
+                stroke-width="1.5"
+              >
+                <rect x="2" y="3" width="20" height="14" rx="2" />
+                <path d="M8 21h8M12 17v4" />
+              </svg>
+            </div>
+            <div class="education-content">
+              <h3>Web Development Program</h3>
+              <div class="education-meta">
+                Diploma | Fanshawe College | Sep 2023 – April 2025
+              </div>
+              <p>
+                Full-stack development with React, Angular, Node.js, and
+                database design. Delivered multiple industry-ready projects.
+              </p>
+            </div>
+          </div>
+          <div class="education-card reveal">
+            <div class="education-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="48"
+                height="48"
+                fill="none"
+                stroke="#f472b6"
+                stroke-width="1.5"
+              >
+                <path d="M12 15l-2-2m0 0l-2-2m2 2l2-2m-2 2l-2 2" />
+                <path
+                  d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+                />
+              </svg>
+            </div>
+            <div class="education-content">
+              <h3>Masters In CS (CU Boulder)</h3>
+              <div class="education-meta">
+                University of Colorado Boulder — MSc CS path — Completed
+                prerequisites have been enrolled in the program, awaiting
+                graduation in 2028
+              </div>
+              <div class="certificates">
+                <span class="certificate-tag">
+                  <a
+                    href="https://www.coursera.org/account/accomplishments/verify/SHM47HE4AW4R"
+                    target="_blank"
+                    style="color: inherit; text-decoration: none"
+                  >
+                    Advanced Data Structures, RSA and Quantum Algorithms
+                  </a>
+                </span>
+                <span class="certificate-tag">
+                  <a
+                    href="https://www.coursera.org/account/accomplishments/verify/0R3N3DGV8FJ5"
+                    target="_blank"
+                    style="color: inherit; text-decoration: none"
+                  >
+                    Dynamic Programming, Greedy Algorithms
+                  </a>
+                </span>
+                <span class="certificate-tag">
+                  <a
+                    href="https://www.coursera.org/account/accomplishments/verify/V2BI5LTLMYZU"
+                    target="_blank"
+                    class="cert-link"
+                  >
+                    Approximation Algorithms and Linear Programming
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="contact-content reveal">
+          <h2><i>Collaborate & Create</i></h2>
+          <p>
+            Got an exciting AI project or full-stack challenge? Let's turn ideas
+            into reality.
+          </p>
+          <div class="contact-links">
+            <a href="mailto:ahsancalgary@gmail.com" class="contact-link">
+              <svg
+                class="contact-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                />
+                <path d="M22 6l-10 7L2 6" />
+              </svg>
+              Mail Me
+            </a>
+            <a
+              href="https://www.linkedin.com/in/ahsan-khan-8b1a53341"
+              class="contact-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"
+                />
+              </svg>
+              LinkedIn
+            </a>
+            <a
+              href="https://github.com/ahsan-khan-1"
+              class="contact-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"
+                />
+              </svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <p>© 2026 M. Ahsan Khan — Portfolio</p>
+      </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+      const scene = new THREE.Scene();
+      scene.background = null;
+
+      const camera = new THREE.PerspectiveCamera(
+        55,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000,
+      );
+      camera.position.set(0, 2, 18);
+      camera.lookAt(0, 0, 0);
+
+      const renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: true,
+      });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+      document
+        .getElementById("canvas-container")
+        .appendChild(renderer.domElement);
+
+      // --- Starfield: thousands of static stars ---
+      const starCount = 3500;
+      const starGeometry = new THREE.BufferGeometry();
+      const starPositions = new Float32Array(starCount * 3);
+      const starColors = new Float32Array(starCount * 3);
+
+      for (let i = 0; i < starCount; i++) {
+        const radius = 70 + Math.random() * 40;
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(2 * Math.random() - 1);
+        starPositions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+        starPositions[i * 3 + 1] =
+          radius * Math.sin(phi) * Math.sin(theta) * 0.6;
+        starPositions[i * 3 + 2] = radius * Math.cos(phi) - 20;
+
+        const intensity = 0.6 + Math.random() * 0.5;
+        const colorType = Math.random();
+        if (colorType < 0.7) {
+          starColors[i * 3] = intensity;
+          starColors[i * 3 + 1] = intensity * 0.95;
+          starColors[i * 3 + 2] = intensity;
+        } else if (colorType < 0.85) {
+          starColors[i * 3] = intensity * 0.7;
+          starColors[i * 3 + 1] = intensity * 0.8;
+          starColors[i * 3 + 2] = intensity;
+        } else {
+          starColors[i * 3] = intensity;
+          starColors[i * 3 + 1] = intensity * 0.6;
+          starColors[i * 3 + 2] = intensity * 0.7;
+        }
+      }
+      starGeometry.setAttribute(
+        "position",
+        new THREE.BufferAttribute(starPositions, 3),
+      );
+      starGeometry.setAttribute(
+        "color",
+        new THREE.BufferAttribute(starColors, 3),
+      );
+
+      const starMaterial = new THREE.PointsMaterial({
+        size: 0.18,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.9,
+        blending: THREE.AdditiveBlending,
+      });
+      const starsField = new THREE.Points(starGeometry, starMaterial);
+      scene.add(starsField);
+
+      // second layer of tiny background stars
+      const tinyStarCount = 2000;
+      const tinyGeo = new THREE.BufferGeometry();
+      const tinyPos = [];
+      for (let i = 0; i < tinyStarCount; i++) {
+        tinyPos.push((Math.random() - 0.5) * 200);
+        tinyPos.push((Math.random() - 0.5) * 100);
+        tinyPos.push((Math.random() - 0.5) * 80 - 40);
+      }
+      tinyGeo.setAttribute(
+        "position",
+        new THREE.BufferAttribute(new Float32Array(tinyPos), 3),
+      );
+      const tinyMat = new THREE.PointsMaterial({
+        color: 0xaaccff,
+        size: 0.07,
+        transparent: true,
+        opacity: 0.5,
+        blending: THREE.AdditiveBlending,
+      });
+      const tinyStars = new THREE.Points(tinyGeo, tinyMat);
+      scene.add(tinyStars);
+
+      // dust cloud
+      const dustGeo = new THREE.BufferGeometry();
+      const dustCount = 800;
+      const dustPositions = [];
+      for (let i = 0; i < dustCount; i++) {
+        dustPositions.push((Math.random() - 0.5) * 110);
+        dustPositions.push((Math.random() - 0.5) * 55);
+        dustPositions.push((Math.random() - 0.5) * 45 - 20);
+      }
+      dustGeo.setAttribute(
+        "position",
+        new THREE.BufferAttribute(new Float32Array(dustPositions), 3),
+      );
+      const dustMat = new THREE.PointsMaterial({
+        color: 0x6688aa,
+        size: 0.05,
+        transparent: true,
+        opacity: 0.2,
+        blending: THREE.AdditiveBlending,
+      });
+      const dustCloud = new THREE.Points(dustGeo, dustMat);
+      scene.add(dustCloud);
+
+      // --- Shooting stars with YELLOW or BLUE colors ---
+      let shootingStars = [];
+
+      function getRandomStarColor() {
+        // Randomly choose between yellow/gold and blue/cyan
+        const isYellow = Math.random() > 0.5;
+        if (isYellow) {
+          // Yellow/Gold shades
+          const r = 1.0;
+          const g = 0.7 + Math.random() * 0.3;
+          const b = 0.2 + Math.random() * 0.3;
+          return { color: new THREE.Color(r, g, b), coreColor: 0xffcc55 };
+        } else {
+          // Blue/Cyan shades
+          const r = 0.2 + Math.random() * 0.3;
+          const g = 0.5 + Math.random() * 0.4;
+          const b = 1.0;
+          return { color: new THREE.Color(r, g, b), coreColor: 0x44aaff };
+        }
+      }
+
+      function createShootingStar() {
+        const startX = (Math.random() - 0.2) * 30 + 12;
+        const startY = Math.random() * 12 + 5;
+        const startZ = (Math.random() - 0.5) * 20 - 5;
+
+        const dirX = -1.8 - Math.random() * 1.5;
+        const dirY = -1.2 - Math.random() * 1.2;
+        const dirZ = (Math.random() - 0.5) * 1.2;
+
+        const starColorsChoice = getRandomStarColor();
+        const trailColor = starColorsChoice.color;
+        const coreColorHex = starColorsChoice.coreColor;
+
+        // Create trail line with the chosen color
+        const points = [];
+        points.push(new THREE.Vector3(0, 0, 0));
+        points.push(new THREE.Vector3(-dirX * 0.3, -dirY * 0.3, -dirZ * 0.3));
+        const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
+        const lineMat = new THREE.LineBasicMaterial({
+          color: trailColor,
+          transparent: true,
+          opacity: 0.95,
+        });
+        const trail = new THREE.Line(lineGeo, lineMat);
+
+        // Core bright point with matching color
+        const coreMat = new THREE.PointsMaterial({
+          color: coreColorHex,
+          size: 0.24,
+          blending: THREE.AdditiveBlending,
+        });
+        const coreGeo = new THREE.BufferGeometry();
+        coreGeo.setAttribute(
+          "position",
+          new THREE.BufferAttribute(new Float32Array([0, 0, 0]), 3),
+        );
+        const corePoint = new THREE.Points(coreGeo, coreMat);
+
+        // Add a subtle glow particle around the core
+        const glowMat = new THREE.PointsMaterial({
+          color: coreColorHex,
+          size: 0.12,
+          transparent: true,
+          opacity: 0.6,
+          blending: THREE.AdditiveBlending,
+        });
+        const glowGeo = new THREE.BufferGeometry();
+        glowGeo.setAttribute(
+          "position",
+          new THREE.BufferAttribute(new Float32Array([0, 0, 0]), 3),
+        );
+        const glowPoint = new THREE.Points(glowGeo, glowMat);
+
+        const group = new THREE.Group();
+        group.add(trail);
+        group.add(corePoint);
+        group.add(glowPoint);
+        group.position.set(startX, startY, startZ);
+        scene.add(group);
+
+        return {
+          group: group,
+          velocity: new THREE.Vector3(dirX, dirY, dirZ),
+          life: 1.0,
+          decay: 0.007 + Math.random() * 0.006,
+          trail: trail,
+          core: corePoint,
+          glow: glowPoint,
+          colorInfo: starColorsChoice,
+        };
+      }
+
+      let lastShootTime = 0;
+      function spawnShootingStars(now) {
+        if (shootingStars.length < 3 && now - lastShootTime > 3200) {
+          shootingStars.push(createShootingStar());
+          lastShootTime = now;
+          if (Math.random() < 0.3 && shootingStars.length < 4) {
+            setTimeout(() => {
+              if (shootingStars.length < 5)
+                shootingStars.push(createShootingStar());
+            }, 500);
+          }
+        }
+      }
+
+      let timeTwinkle = 0;
+
+      function animate() {
+        requestAnimationFrame(animate);
+        const now = Date.now();
+        timeTwinkle += 0.008;
+
+        const twinkleIntensity = 0.85 + Math.sin(timeTwinkle * 1.5) * 0.07;
+        starMaterial.opacity = twinkleIntensity;
+        tinyMat.opacity = 0.45 + Math.sin(timeTwinkle * 1.2) * 0.08;
+
+        // Much slower starfield rotation
+        starsField.rotation.y += 0.00005;
+        starsField.rotation.x += 0.00002;
+        tinyStars.rotation.y -= 0.00003;
+        dustCloud.rotation.y += 0.00002;
+
+        // Update shooting stars
+        for (let i = shootingStars.length - 1; i >= 0; i--) {
+          const s = shootingStars[i];
+          s.life -= s.decay;
+          if (s.life <= 0) {
+            scene.remove(s.group);
+            shootingStars.splice(i, 1);
+            continue;
+          }
+
+          // Slower movement
+          s.group.position.x += s.velocity.x * 0.2;
+          s.group.position.y += s.velocity.y * 0.2;
+          s.group.position.z += s.velocity.z * 0.2;
+
+          const opacity = s.life * 1.1;
+          if (s.trail.material) s.trail.material.opacity = opacity;
+          if (s.core.material) s.core.material.opacity = opacity;
+          if (s.glow.material) s.glow.material.opacity = opacity * 0.7;
+
+          // Update trail geometry to stretch based on velocity direction
+          if (s.trail.geometry) {
+            const points = [];
+            points.push(new THREE.Vector3(0, 0, 0));
+            const len = 0.4 * (0.5 + s.life * 0.7);
+            points.push(
+              new THREE.Vector3(
+                -s.velocity.x * 0.18,
+                -s.velocity.y * 0.18,
+                -s.velocity.z * 0.18,
+              ),
+            );
+            s.trail.geometry.dispose();
+            s.trail.geometry = new THREE.BufferGeometry().setFromPoints(points);
+          }
+
+          // Slight color shift as star fades (optional: keep original color)
+          if (s.glow.material) {
+            const fadeColor = s.colorInfo.coreColor;
+            s.glow.material.color.setHex(fadeColor);
+          }
+        }
+
+        spawnShootingStars(now);
+
+        // Gentle camera drift
+        const mouseX = (window.mouseX || 0) * 0.4;
+        const mouseY = (window.mouseY || 0) * 0.25;
+        camera.position.x += (mouseX * 0.4 - camera.position.x) * 0.02;
+        camera.position.y += (-mouseY * 0.25 - camera.position.y) * 0.02;
+        camera.lookAt(0, 0, 0);
+
+        renderer.render(scene, camera);
+      }
+
+      window.addEventListener("mousemove", (event) => {
+        window.mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+        window.mouseY = (event.clientY / window.innerHeight) * 2 - 1;
+      });
+
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      animate();
+
+      // smooth scroll & mobile menu
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute("href");
+          if (targetId === "#") return;
+          const target = document.querySelector(targetId);
+          if (target)
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+          if (
+            document.getElementById("nav-menu").classList.contains("active")
+          ) {
+            document.getElementById("nav-menu").classList.remove("active");
+          }
+        });
+      });
+
+      const mobileBtn = document.getElementById("mobile-menu-toggle");
+      const navMenu = document.getElementById("nav-menu");
+      mobileBtn.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+      });
+
+      const revealElements = document.querySelectorAll(".reveal");
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) entry.target.classList.add("active");
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -20px 0px" },
+      );
+      revealElements.forEach((el) => revealObserver.observe(el));
+      setTimeout(() => {
+        document.querySelectorAll(".reveal").forEach((el) => {
+          if (el.getBoundingClientRect().top < window.innerHeight)
+            el.classList.add("active");
+        });
+      }, 100);
+    </script>
+  </body>
+</html>
